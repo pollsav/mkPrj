@@ -1,5 +1,5 @@
 let $arena = document.querySelector('.arenas');
-const $randomButton = document.querySelector('.button')
+const $randomButton = document.querySelector('.button');
 let playerOne = {
     player:1,
     name: 'Sub-Zero',
@@ -9,7 +9,7 @@ let playerOne = {
     attack: () => {
         console.log(this.name + 'Fight')
     }
-}
+};
 let playerTwo = {
     player:2,
     name: 'Skorpion',
@@ -19,7 +19,7 @@ let playerTwo = {
     attack: () => {
         console.log(this.name + 'Fight')
     }
-}
+};
 
 const createElement = (tag, className) =>{
     const $tag = document.createElement(tag);
@@ -52,11 +52,15 @@ const createPlayer = (info) => {
 
 const changeHp = (player) =>{
     const $playerLife = document.querySelector('.player'+ player.player +' .life');
-    player.hp -= 20;
+    
     $playerLife.style.width = player.hp + '%';
-
+        console.log(player.hp)
     if(player.hp < 0){
+        player.hp = 0
         $arena.appendChild(playerLose(player.name));
+        $randomButton.disabled = true;
+    }else{
+        player.hp -= Math.ceil(Math.random() * 20);
     }
 };
 
