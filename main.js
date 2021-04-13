@@ -62,14 +62,26 @@ function changeHp (damage) {
 function elHP () {
     const $playerLife = document.querySelector('.player'+ this.player +' .life');
     return $playerLife;
-}
+};
 function renderHP(){
     return this.elHP().style.width = this.hp + '%';   
-}
+};
 
 function getRandom (num) {
     return Math.ceil(Math.random() * num);
-}
+};
+function createLoadButton (){
+    const restartGame = createElement('div', 'reloadWrap');
+    const buttonRes = createElement('button', 'button');
+
+    buttonRes.innerText = 'Restart'
+    buttonRes.addEventListener('click',()=>{
+        window.location.reload()
+    })
+
+    restartGame.appendChild(buttonRes);
+    $arena.appendChild(restartGame);
+};
 $randomButton.addEventListener('click',()=>{
     playerOne.changeHp(getRandom(20));
     playerTwo.changeHp(getRandom(20));
@@ -79,6 +91,9 @@ $randomButton.addEventListener('click',()=>{
 
     if(playerOne.hp === 0 || playerTwo === 0){
         $randomButton.disabled = true;
+        createLoadButton();
+        console.log(playerOne.hp);
+        console.log(playerTwo.hp);
     }
     if(playerOne.hp === 0 && playerOne.hp < playerTwo.hp){
         $arena.appendChild(playerWins(playerTwo.name));
