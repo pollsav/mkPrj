@@ -9,9 +9,7 @@ let playerOne = {
     changeHp: changeHp,
     renderHP: renderHP,
     elHP: elHP,
-    attack: () => {
-        console.log(this.name + 'Fight')
-    }
+    attack: () => {}
 };
 let playerTwo = {
     player:2,
@@ -22,9 +20,7 @@ let playerTwo = {
     changeHp: changeHp,
     renderHP: renderHP,
     elHP: elHP,
-    attack: () => {
-        console.log(this.name + 'Fight')
-    }
+    attack: () => {}
 };
 
 const createElement = (tag, className) =>{
