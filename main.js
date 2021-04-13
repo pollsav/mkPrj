@@ -68,7 +68,7 @@ function renderHP(){
 }
 
 function getRandom (num) {
-    return Math.ceil(Math.random() * 20);
+    return Math.ceil(Math.random() * num);
 }
 $randomButton.addEventListener('click',()=>{
     playerOne.changeHp(getRandom(20));
