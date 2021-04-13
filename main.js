@@ -1,25 +1,31 @@
 let $arena = document.querySelector('.arenas');
-const $randomButton = document.querySelector('.button')
+const $randomButton = document.querySelector('.button');
 let playerOne = {
     player:1,
     name: 'Sub-Zero',
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['Katana'],
+    changeHp: changeHp,
+    renderHP: renderHP,
+    elHP: elHP,
     attack: () => {
         console.log(this.name + 'Fight')
     }
-}
+};
 let playerTwo = {
     player:2,
     name: 'Skorpion',
     hp: 100,
     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
     weapon: ['Katana'],
+    changeHp: changeHp,
+    renderHP: renderHP,
+    elHP: elHP,
     attack: () => {
         console.log(this.name + 'Fight')
     }
-}
+};
 
 const createElement = (tag, className) =>{
     const $tag = document.createElement(tag);
@@ -50,25 +56,52 @@ const createPlayer = (info) => {
     return $playerBar;
 };
 
-const changeHp = (player) =>{
-    const $playerLife = document.querySelector('.player'+ player.player +' .life');
-    player.hp -= 20;
-    $playerLife.style.width = player.hp + '%';
-
-    if(player.hp < 0){
-        $arena.appendChild(playerLose(player.name));
-    }
+function changeHp (damage) {
+    this.hp -= damage
+    if(this.hp < 0){
+         this.hp = 0;
+    };
+    return this.hp;
 };
+function elHP () {
+    const $playerLife = document.querySelector('.player'+ this.player +' .life');
+    return $playerLife;
+}
+function renderHP(){
+    return this.elHP().style.width = this.hp + '%';   
+}
 
+function getRandom (num) {
+    return Math.ceil(Math.random() * 20);
+}
 $randomButton.addEventListener('click',()=>{
-    changeHp(playerOne);
-    changeHp(playerTwo);
+    playerOne.changeHp(getRandom(20));
+    playerTwo.changeHp(getRandom(20));
+  
+    playerOne.renderHP();
+    playerTwo.renderHP();
+
+    if(playerOne.hp === 0 || playerTwo === 0){
+        $randomButton.disabled = true;
+    }
+    if(playerOne.hp === 0 && playerOne.hp < playerTwo.hp){
+        $arena.appendChild(playerWins(playerTwo.name));
+    } else if(playerTwo.hp === 0 && playerTwo.hp < playerOne.hp){
+        $arena.appendChild(playerWins(playerOne.name));
+    }else if(playerOne.hp === 0 && playerTwo.hp === 0){
+        $arena.appendChild(playerWins())
+    }
 });
 
-const playerLose = (name) =>{
-    const $loseTitle = createElement('div', 'loseTitle');
-    $loseTitle.innerText = name + ' lose';
-    return $loseTitle;
+const playerWins = (name) =>{
+    const $winTitle = createElement('div', 'loseTitle');
+    if(name){
+        $winTitle.innerText = name + ' Win';
+    }else{
+        $winTitle.innerText = 'drow';
+    }
+    
+    return $winTitle;
 }
 
 $arena.appendChild(createPlayer(playerOne));
