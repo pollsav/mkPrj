@@ -59,7 +59,6 @@ let playerOne = {
     elHP,
     attack,
 };
-console.log(playerOne.changeHp)
 let playerTwo = {
     player:2,
     name: 'Skorpion',
@@ -76,9 +75,6 @@ const fightTime = function(){
     const time = new Date();
     return time.getHours() +':'+time.getMinutes()+':'+ time.getSeconds();
 };  
-
-const start = logs.start.replace('time', fightTime()).replace('player1',playerOne.name).replace('player2',playerTwo.name);
-$chat.insertAdjacentHTML('afterbegin', start);
 
 
 function attack() {
@@ -154,7 +150,7 @@ function createLoadButton (){
     restartGame.appendChild(buttonRes);
     $arena.appendChild(restartGame);
 };
-
+generateLogs('start',playerOne,playerTwo);
 $arena.appendChild(createPlayer(playerOne));
 $arena.appendChild(createPlayer(playerTwo));
 function enemyAttack(){
@@ -183,11 +179,6 @@ function playerAttack () {
     };
     return attack;
 };
-function endLogs(win,lose){
-        const textEnd = logs['end'][Math.ceil(Math.random() * 2)].replace('[playerWins]',win.name).replace('[playerLose]', lose.name);
-        const elem = `<p>${fightTime()} ${textEnd}</p>`;
-        $chat.insertAdjacentHTML('afterbegin', elem);
-};
 function showResult(){
     if(playerOne.hp === 0 || playerTwo.hp === 0){
         const btnOff = document.querySelector('.button');
@@ -198,14 +189,13 @@ function showResult(){
 
     if(playerOne.hp === 0 && playerOne.hp < playerTwo.hp){
         $arena.appendChild(playerWins(playerTwo.name));
-        endLogs(playerTwo,playerOne);
+        generateLogs('end',playerTwo,playerOne);
     } else if(playerTwo.hp === 0 && playerTwo.hp < playerOne.hp){
         $arena.appendChild(playerWins(playerOne.name));
-        endLogs(playerOne,playerTwo);
+        generateLogs('end',playerOne,playerTwo);
     }else if(playerOne.hp === 0 && playerTwo.hp === 0){
         $arena.appendChild(playerWins());
-        const drawLog = `<p>${logs.draw}</p>`
-        $chat.insertAdjacentHTML('afterbegin',drawLog);
+        generateLogs('draw',playerOne,playerTwo);
     }
 };
 function generateLogs(type,player1,player2,value){
@@ -214,24 +204,31 @@ function generateLogs(type,player1,player2,value){
     };
     let hp = `${-value}[${player1.hp}/100]`
     switch(type){
+        case 'start': 
+            const start = logs.start.replace('time', fightTime()).replace('player1',playerOne.name).replace('player2',playerTwo.name);
+            return $chat.insertAdjacentHTML('afterbegin', start);
         case 'hit':
             const text = logs[type][randomLogs()].replace('[playerKick]',player2.name).replace('[playerDefence]',player1.name);
              const el = `<p>${fightTime()} ${text}${hp}</p>`;
-             $chat.insertAdjacentHTML('afterbegin', el);
-             break;
+             return  $chat.insertAdjacentHTML('afterbegin', el);
         case 'defence':
             const text2 = logs[type][Math.ceil(Math.random() * 7)].replace('[playerKick]',player2.name).replace('[playerDefence]',player1.name);
             const el2 = `<p>${fightTime()} ${text2}</p>`;
-            $chat.insertAdjacentHTML('afterbegin', el2);
+            return $chat.insertAdjacentHTML('afterbegin', el2);
+        case 'end':
+            const textEnd = logs['end'][Math.ceil(Math.random() * 2)].replace('[playerWins]',win.name).replace('[playerLose]', lose.name);
+            const elem = `<p>${fightTime()} ${textEnd}</p>`;
+            return $chat.insertAdjacentHTML('afterbegin', elem);    
+        case 'draw':
+            const drawLog = `<p>${logs.draw}</p>`
+            return $chat.insertAdjacentHTML('afterbegin',drawLog);
+      
     }
-
-
 };
 $formFight.addEventListener('submit',function(e){
     e.preventDefault();
     const enemy = enemyAttack();
     const player = playerAttack();
-
     if(enemy.hit !== player.defence){
         playerOne.changeHp(enemy.value);
         playerOne.renderHP();
