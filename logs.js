@@ -1,12 +1,12 @@
-import {createLoadButton,createElement} from './main.js';
 import {playerOne,playerTwo} from './hpPlayer.js'
+import game from './main.js'
 
 export function showResult(){
     if(playerOne.hp === 0 || playerTwo.hp === 0){
         const btnOff = document.querySelector('.button');
         console.log(btnOff)
         btnOff.disabled = true;
-        createLoadButton();
+        game.createLoadButton();
     }
 
     if(playerOne.hp === 0 && playerOne.hp < playerTwo.hp){
@@ -22,7 +22,7 @@ export function showResult(){
 };
 
 export const playerWins = (name) =>{
-    const $winTitle = createElement('div', 'loseTitle');
+    const $winTitle = game.createElement('div', 'loseTitle');
     if(name){
         $winTitle.innerText = name + ' Win';
     }else{
