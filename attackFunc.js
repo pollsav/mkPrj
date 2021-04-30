@@ -1,6 +1,7 @@
-function getRandom (num) {
+export default function getRandom (num) {
     return Math.ceil(Math.random() * num);
 };
+
 export function enemyAttack(){
     const hit = ATTACK[getRandom(3) - 1];
     const defence = ATTACK[getRandom(3)-1];
@@ -9,8 +10,9 @@ export function enemyAttack(){
         hit,
         defence,
     }
-}
-export function playerAttack () {
+};
+
+export function playerAttack (){
     const attack = {
 
     };
@@ -26,6 +28,7 @@ export function playerAttack () {
         item.checked = false;
     };
     return attack;
+    
 };
 const HIT = {
     head: 30,

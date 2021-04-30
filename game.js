@@ -1,10 +1,14 @@
 import {playerOne,playerTwo} from './hpPlayer.js';
 import {generateLogs,showResult} from './logs.js';
-import {enemyAttack,playerAttack} from './attackFunc.js';
+import getRandom, {enemyAttack,playerAttack} from './attackFunc.js';
 let $arena = document.querySelector('.arenas');
 const $formFight = document.querySelector('.control');
-export default class Game {
 
+export default class Game {
+    createArena = () =>  {
+        const arenas = ['arena1','arena2','arena3','arena4','arena5']
+        $arena.classList.add(arenas[(getRandom(5)-1)])
+    };
     createElement (tag, className) {
         const $tag = document.createElement(tag);
         if(className){
@@ -41,13 +45,14 @@ export default class Game {
     
         buttonRes.innerText = 'Restart'
         buttonRes.addEventListener('click',()=>{
-            window.location.reload()
+            document.location.href = "index.html";
         })
     
         restartGame.appendChild(buttonRes);
         $arena.appendChild(restartGame);
     };
     start(){
+    this.createArena();
     generateLogs('start',playerOne,playerTwo);
     $arena.appendChild(this.createPlayer(playerOne));
     $arena.appendChild(this.createPlayer(playerTwo));
@@ -68,8 +73,8 @@ export default class Game {
         generateLogs('hit',playerTwo,playerOne,player.value);
     }else{
         generateLogs('defence',playerTwo,playerOne);
-    };
+    };  
     showResult();
 });
     }
-}
+};
