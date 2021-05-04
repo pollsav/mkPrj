@@ -45,7 +45,7 @@ export default class Game {
     
         buttonRes.innerText = 'Restart'
         buttonRes.addEventListener('click',()=>{
-            document.location.href = "index.html";
+            window.location.pathname = "./index.html";
         })
     
         restartGame.appendChild(buttonRes);

@@ -59,7 +59,7 @@ async function init() {
 
             el.classList.add('active');
             setTimeout(() => {
-                document.location.href = "battle.html";
+                window.location.pathname = "./battle.html";
             }, 1000);
         });
 
